@@ -1,7 +1,16 @@
+import ProjectSection from "@/components/ProjectSection";
+import SocialLinks from "@/components/SocialLinks";
+import { projects } from "@/data/projects";
+
 export default function Home() {
   return (
-    <main className="flex flex-1 items-center justify-center">
-      <h1 className="text-2xl font-semibold tracking-tight">Portfolio</h1>
-    </main>
+    <>
+      <main className="h-screen snap-y snap-mandatory overflow-y-scroll">
+        {projects.map((project) => (
+          <ProjectSection key={project.slug} project={project} />
+        ))}
+      </main>
+      <SocialLinks />
+    </>
   );
 }
