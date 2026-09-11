@@ -21,6 +21,8 @@ export type Project = {
     src: string;
     alt?: string;
   };
+  /** Protótipo do Figma embutido (iframe) à direita — tem prioridade sobre `media` */
+  figmaEmbed?: string;
 };
 
 export const projects: Project[] = [
@@ -34,7 +36,8 @@ export const projects: Project[] = [
     bg: "#6B0712",
     fg: "#FFFFFF",
     accent: "#FF3B4E",
-    // media: { type: "image", src: "/projects/banco.png", alt: "Tela do app bancário" },
+    figmaEmbed:
+      "https://embed.figma.com/proto/lMhOUl8oaguFYksTxmHwYM/Novo-app-Sefer?node-id=7465-13567&embed-host=portfolio&scaling=scale-down&content-scaling=fixed&hide-ui=1",
   },
   {
     slug: "inspecao-trem",
