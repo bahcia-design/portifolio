@@ -14,12 +14,20 @@ export default function AppMapa() {
         className="absolute inset-0 h-full w-full object-cover object-top"
         draggable={false}
       />
-      {/* estado expandido (cabeçalho com legenda) — cross-fade em loop */}
+      {/* cabeçalho de cima aberto (ID/Obs/legenda) — cross-fade */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/projects/trem/02-mapa-legenda.png"
         alt=""
         className="mapa-legend-fade absolute inset-0 h-full w-full object-cover object-top"
+        draggable={false}
+      />
+      {/* sheet de baixo aberto (lista de pontos) — cross-fade, depois do cabeçalho */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/projects/trem/02-mapa-sheet.png"
+        alt=""
+        className="mapa-sheet-fade absolute inset-0 h-full w-full object-cover object-top"
         draggable={false}
       />
     </div>

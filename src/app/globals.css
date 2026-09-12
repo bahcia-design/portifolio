@@ -56,17 +56,33 @@ body {
   }
 }
 
-/* Mapa: cabeçalho abre (mostra legenda) e fecha — cross-fade de renders reais */
+/* Mapa: renders REAIS em cross-fade. Primeiro o cabeçalho abre (legenda),
+   depois o sheet de baixo abre — escalonados num loop de 8.5s. */
 @keyframes mapa-legend {
   0%,
-  18% {
+  6% {
     opacity: 0;
   }
-  34%,
-  70% {
+  14%,
+  32% {
     opacity: 1;
   }
-  86%,
+  40%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mapa-sheet-fade {
+  0%,
+  50% {
+    opacity: 0;
+  }
+  58%,
+  82% {
+    opacity: 1;
+  }
+  90%,
   100% {
     opacity: 0;
   }
@@ -74,11 +90,17 @@ body {
 
 .mapa-legend-fade {
   opacity: 0;
-  animation: mapa-legend 5.5s ease-in-out infinite;
+  animation: mapa-legend 8.5s ease-in-out infinite;
+}
+
+.mapa-sheet-fade {
+  opacity: 0;
+  animation: mapa-sheet-fade 8.5s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mapa-legend-fade {
+  .mapa-legend-fade,
+  .mapa-sheet-fade {
     animation: none;
     opacity: 0;
   }
