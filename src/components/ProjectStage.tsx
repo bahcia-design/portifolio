@@ -4,8 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { projects } from "@/data/projects";
 import ProjectContent from "@/components/ProjectContent";
 
-const DURATION = 700; // ms — duração do slide + trava do scroll
-const EASE = "cubic-bezier(0.7, 0, 0.2, 1)";
+const FADE = 450; // ms — duração de cada fase (sai / entra)
+const DELAY = 380; // ms — o conteúdo que entra espera o que sai limpar (sem ghosting)
+const MOVE = 40; // px — deslize curto (troca no lugar, não parece scroll)
+const EASE = "ease";
+const CYCLE = FADE + DELAY; // duração total da troca
 
 export default function ProjectStage() {
   const count = projects.length;
@@ -24,7 +27,7 @@ export default function ProjectStage() {
       setActive(next);
       window.setTimeout(() => {
         lockRef.current = false;
-      }, DURATION + 150);
+      }, CYCLE + 120);
     };
 
     const onWheel = (e: WheelEvent) => {
@@ -78,23 +81,28 @@ export default function ProjectStage() {
       className="fixed inset-0 overflow-hidden"
       style={{
         backgroundColor: projects[active].bg,
-        transition: `background-color ${DURATION}ms ${EASE}`,
+        transition: `background-color ${CYCLE}ms ${EASE}`,
       }}
     >
       {projects.map((project, i) => {
         const rel = i - active; // 0 = ativo, <0 = já passou (acima), >0 = próximo (abaixo)
+        const dir = Math.max(-1, Math.min(1, rel)); // direção do deslize
+        const isActive = rel === 0;
         return (
-          // Conteúdo transparente que desliza direcional (sem dissolver).
+          // Troca no lugar: sai (some subindo) → entra (aparece subindo). Curto, sem dissolver.
           <div
             key={project.slug}
             className="absolute inset-0 flex items-center will-change-transform"
             style={{
               color: project.fg,
-              transform: `translateY(${rel * 100}%)`,
-              transition: `transform ${DURATION}ms ${EASE}`,
-              pointerEvents: rel === 0 ? "auto" : "none",
+              opacity: isActive ? 1 : 0,
+              transform: `translateY(${isActive ? 0 : dir * MOVE}px)`,
+              transition: `opacity ${FADE}ms ${EASE}, transform ${FADE}ms ${EASE}`,
+              // O que entra espera o que sai limpar; o que sai vai embora na hora.
+              transitionDelay: isActive ? `${DELAY}ms` : "0ms",
+              pointerEvents: isActive ? "auto" : "none",
             }}
-            aria-hidden={rel !== 0}
+            aria-hidden={!isActive}
           >
             <ProjectContent project={project} />
           </div>

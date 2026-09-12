@@ -23,6 +23,15 @@ export type Project = {
   };
   /** Protótipo do Figma embutido (iframe) à direita — tem prioridade sobre `media` */
   figmaEmbed?: string;
+  /** Simulação de uso do app: telas reais em autoplay (tem prioridade sobre tudo) */
+  appDemo?: {
+    frames: {
+      src?: string;
+      component?: "home";
+      tap?: { x: number; y: number };
+      enter?: "push" | "modal" | "fade";
+    }[];
+  };
 };
 
 export const projects: Project[] = [
@@ -36,8 +45,14 @@ export const projects: Project[] = [
     bg: "#6B0712",
     fg: "#FFFFFF",
     accent: "#FF3B4E",
-    figmaEmbed:
-      "https://embed.figma.com/proto/lMhOUl8oaguFYksTxmHwYM/Novo-app-Sefer?node-id=7465-13567&embed-host=portfolio&scaling=scale-down&content-scaling=fixed&hide-ui=1",
+    appDemo: {
+      frames: [
+        { component: "home", tap: { x: 50, y: 32 }, enter: "fade" },
+        { src: "/projects/flow/02-valor.png", tap: { x: 50, y: 93 }, enter: "push" },
+        { src: "/projects/flow/03-revisar.png", tap: { x: 50, y: 93 }, enter: "push" },
+        { src: "/projects/flow/04-pin.png", tap: { x: 50, y: 94 }, enter: "modal" },
+      ],
+    },
   },
   {
     slug: "inspecao-trem",
@@ -49,6 +64,8 @@ export const projects: Project[] = [
     bg: "#0D2340",
     fg: "#FFFFFF",
     accent: "#3B82F6",
-    // media: { type: "image", src: "/projects/trem.png", alt: "Tela de gestão de ocorrências" },
+    appDemo: {
+      frames: [{ src: "/projects/trem/01-ocorrencias.png" }],
+    },
   },
 ];
