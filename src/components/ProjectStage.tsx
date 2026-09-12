@@ -75,6 +75,19 @@ export default function ProjectStage() {
     };
   }, []);
 
+  // Pula direto pra um projeto (bolinhas de navegação).
+  const goTo = (index: number) => {
+    if (lockRef.current) return;
+    const next = Math.min(Math.max(index, 0), count - 1);
+    if (next === activeRef.current) return;
+    activeRef.current = next;
+    lockRef.current = true;
+    setActive(next);
+    window.setTimeout(() => {
+      lockRef.current = false;
+    }, CYCLE + 120);
+  };
+
   return (
     // Fundo = o "frame" que fica PARADO no lugar, só recolore suave.
     <div
@@ -108,6 +121,29 @@ export default function ProjectStage() {
           </div>
         );
       })}
+
+      {/* Bolinhas de navegação entre projetos */}
+      <nav className="fixed right-6 top-1/2 z-50 flex -translate-y-1/2 flex-col items-center gap-3">
+        {projects.map((project, i) => {
+          const isActive = i === active;
+          return (
+            <button
+              key={project.slug}
+              onClick={() => goTo(i)}
+              aria-label={`Ir para ${project.title}`}
+              aria-current={isActive}
+              className="rounded-full transition-all duration-300"
+              style={{
+                width: 8,
+                height: isActive ? 24 : 8,
+                backgroundColor: isActive
+                  ? projects[active].fg
+                  : `${projects[active].fg}59`,
+              }}
+            />
+          );
+        })}
+      </nav>
     </div>
   );
 }
