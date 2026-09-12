@@ -56,35 +56,31 @@ body {
   }
 }
 
-/* Sheet do mapa expandindo/recolhendo sozinho (demo) */
-@keyframes mapa-sheet {
+/* Mapa: cabeçalho abre (mostra legenda) e fecha — cross-fade de renders reais */
+@keyframes mapa-legend {
   0%,
-  16% {
-    max-height: 0;
+  18% {
     opacity: 0;
   }
-  30%,
-  76% {
-    max-height: 220px;
+  34%,
+  70% {
     opacity: 1;
   }
-  90%,
+  86%,
   100% {
-    max-height: 0;
     opacity: 0;
   }
 }
 
-.mapa-sheet-list {
-  overflow: hidden;
-  animation: mapa-sheet 5.5s ease-in-out infinite;
+.mapa-legend-fade {
+  opacity: 0;
+  animation: mapa-legend 5.5s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mapa-sheet-list {
+  .mapa-legend-fade {
     animation: none;
-    max-height: none;
-    opacity: 1;
+    opacity: 0;
   }
 }
 
