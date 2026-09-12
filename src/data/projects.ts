@@ -65,7 +65,10 @@ export const projects: Project[] = [
     fg: "#FFFFFF",
     accent: "#3B82F6",
     appDemo: {
-      frames: [{ component: "trem" }],
+      frames: [
+        { component: "trem", tap: { x: 50, y: 96 }, enter: "fade" },
+        { src: "/projects/trem/02-mapa.png", tap: { x: 78, y: 94 }, enter: "push" },
+      ],
     },
   },
 ];
