@@ -27,7 +27,7 @@ export type Project = {
   appDemo?: {
     frames: {
       src?: string;
-      component?: "home";
+      component?: "home" | "trem";
       tap?: { x: number; y: number };
       enter?: "push" | "modal" | "fade";
     }[];
@@ -65,7 +65,7 @@ export const projects: Project[] = [
     fg: "#FFFFFF",
     accent: "#3B82F6",
     appDemo: {
-      frames: [{ src: "/projects/trem/01-ocorrencias.png" }],
+      frames: [{ component: "trem" }],
     },
   },
 ];

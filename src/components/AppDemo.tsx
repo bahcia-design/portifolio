@@ -2,12 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import AppHome from "@/components/AppHome";
+import AppTrem from "@/components/AppTrem";
 
 export type DemoFrame = {
   /** Caminho da imagem da tela (em /public) */
   src?: string;
-  /** Tela codada (ex: "home") — tem prioridade sobre src */
-  component?: "home";
+  /** Tela codada — tem prioridade sobre src */
+  component?: "home" | "trem";
   /** Ponto do toque simulado nesta tela, em % (onde o dedo aperta pra avançar) */
   tap?: { x: number; y: number };
   /** Como ESTA tela entra: push (desliza da direita), modal (sobe), fade */
@@ -17,6 +18,7 @@ export type DemoFrame = {
 // Telas codadas têm largura nativa; o palco escala pra caber.
 const SCREENS: Record<string, { node: React.ReactNode; width: number }> = {
   home: { node: <AppHome />, width: 440 },
+  trem: { node: <AppTrem />, width: 390 },
 };
 
 // Ritmo da simulação (ms)
@@ -31,6 +33,59 @@ function startTransform(enter?: DemoFrame["enter"]) {
   return "translateX(0)";
 }
 
+/** Renderiza uma tela codada (largura nativa) escalada pra caber no celular,
+ *  com auto-scroll suave quando o conteúdo é mais alto que a moldura. */
+function ScaledScreen({ node, width }: { node: React.ReactNode; width: number }) {
+  const outerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(0.7);
+  const [dist, setDist] = useState(0);
+
+  useEffect(() => {
+    const outer = outerRef.current;
+    const content = contentRef.current;
+    if (!outer || !content) return;
+    const measure = () => {
+      const s = outer.clientWidth / width;
+      setScale(s);
+      const scaledHeight = content.offsetHeight * s;
+      setDist(Math.max(0, scaledHeight - outer.clientHeight));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(outer);
+    ro.observe(content);
+    return () => ro.disconnect();
+  }, [width]);
+
+  return (
+    <div
+      ref={outerRef}
+      className="relative h-full w-full overflow-hidden"
+      style={{ background: "#f6f6f6" }}
+    >
+      <div
+        className="will-change-transform"
+        style={
+          dist > 0
+            ? ({
+                animation: "appdemo-scroll 16s ease-in-out infinite",
+                "--scroll-dist": `${dist}px`,
+              } as React.CSSProperties)
+            : undefined
+        }
+      >
+        <div
+          ref={contentRef}
+          style={{ width, transform: `scale(${scale})`, transformOrigin: "top left" }}
+        >
+          {node}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function AppDemo({ frames }: { frames: DemoFrame[] }) {
   const [idx, setIdx] = useState(0);
   const [prev, setPrev] = useState<number | null>(null);
@@ -42,18 +97,6 @@ export default function AppDemo({ frames }: { frames: DemoFrame[] }) {
     visible: false,
   });
 
-  // Mede a largura do palco pra escalar as telas codadas.
-  const rootRef = useRef<HTMLDivElement>(null);
-  const [frameWidth, setFrameWidth] = useState(0);
-  useEffect(() => {
-    const el = rootRef.current;
-    if (!el) return;
-    const update = () => setFrameWidth(el.clientWidth);
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
 
   useEffect(() => {
     if (frames.length <= 1) return;
@@ -96,7 +139,7 @@ export default function AppDemo({ frames }: { frames: DemoFrame[] }) {
   }, [frames]);
 
   return (
-    <div ref={rootRef} className="relative h-full w-full overflow-hidden bg-[#FAFAFA]">
+    <div className="relative h-full w-full overflow-hidden bg-[#FAFAFA]">
       {frames.map((s, i) => {
         const isCur = i === idx;
         const isPrev = i === prev;
@@ -141,17 +184,7 @@ export default function AppDemo({ frames }: { frames: DemoFrame[] }) {
             }}
           >
             {screen ? (
-              <div className="h-full w-full overflow-hidden bg-[#f6f6f6]">
-                <div
-                  style={{
-                    width: screen.width,
-                    transform: `scale(${frameWidth ? frameWidth / screen.width : 0.64})`,
-                    transformOrigin: "top left",
-                  }}
-                >
-                  {screen.node}
-                </div>
-              </div>
+              <ScaledScreen node={screen.node} width={screen.width} />
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
               <img
