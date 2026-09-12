@@ -263,8 +263,9 @@ export default function AppTrem() {
               chip={<StatusChip label="Em andamento" />}
               route={<Route km1="KM 154+390m" st1="Uraí (LUR)" km2="KM 156+680m" st2="Cornélio Procópio (LCP)" />}
             />
-            <div className="my-4 h-px w-full" style={{ background: "#ececec" }} />
-            {/* realizar entre */}
+            <div className="trem-auto-expand">
+              <div className="my-4 h-px w-full" style={{ background: "#ececec" }} />
+              {/* realizar entre */}
             <div className="flex flex-col items-center gap-1">
               <span className="text-[10px] font-medium" style={{ color: C.n300 }}>
                 Realizar entre
@@ -324,6 +325,7 @@ export default function AppTrem() {
                 <Icon src="circle-check.svg" size={24} />
               </div>
               <BtnFilled label="Continuar Inspeção" icon="arrow-right-circle.svg" />
+              </div>
             </div>
           </CardShell>
 

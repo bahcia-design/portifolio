@@ -16,9 +16,13 @@ export type DemoFrame = {
 };
 
 // Telas codadas têm largura nativa; o palco escala pra caber.
-const SCREENS: Record<string, { node: React.ReactNode; width: number }> = {
-  home: { node: <AppHome />, width: 440 },
-  trem: { node: <AppTrem />, width: 390 },
+// autoScroll=false quando a tela já tem animação própria (ex: trem expande sozinho).
+const SCREENS: Record<
+  string,
+  { node: React.ReactNode; width: number; autoScroll: boolean }
+> = {
+  home: { node: <AppHome />, width: 440, autoScroll: true },
+  trem: { node: <AppTrem />, width: 390, autoScroll: false },
 };
 
 // Ritmo da simulação (ms)
@@ -35,7 +39,15 @@ function startTransform(enter?: DemoFrame["enter"]) {
 
 /** Renderiza uma tela codada (largura nativa) escalada pra caber no celular,
  *  com auto-scroll suave quando o conteúdo é mais alto que a moldura. */
-function ScaledScreen({ node, width }: { node: React.ReactNode; width: number }) {
+function ScaledScreen({
+  node,
+  width,
+  autoScroll = true,
+}: {
+  node: React.ReactNode;
+  width: number;
+  autoScroll?: boolean;
+}) {
   const outerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.7);
@@ -49,14 +61,14 @@ function ScaledScreen({ node, width }: { node: React.ReactNode; width: number })
       const s = outer.clientWidth / width;
       setScale(s);
       const scaledHeight = content.offsetHeight * s;
-      setDist(Math.max(0, scaledHeight - outer.clientHeight));
+      setDist(autoScroll ? Math.max(0, scaledHeight - outer.clientHeight) : 0);
     };
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(outer);
     ro.observe(content);
     return () => ro.disconnect();
-  }, [width]);
+  }, [width, autoScroll]);
 
   return (
     <div
@@ -184,7 +196,11 @@ export default function AppDemo({ frames }: { frames: DemoFrame[] }) {
             }}
           >
             {screen ? (
-              <ScaledScreen node={screen.node} width={screen.width} />
+              <ScaledScreen
+                node={screen.node}
+                width={screen.width}
+                autoScroll={screen.autoScroll}
+              />
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
               <img

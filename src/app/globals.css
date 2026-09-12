@@ -24,6 +24,38 @@ body {
   color: var(--foreground);
 }
 
+/* Card do trem expandindo/recolhendo sozinho (demo do protótipo) */
+@keyframes trem-card-expand {
+  0%,
+  14% {
+    max-height: 0;
+    opacity: 0;
+  }
+  26%,
+  72% {
+    max-height: 460px;
+    opacity: 1;
+  }
+  84%,
+  100% {
+    max-height: 0;
+    opacity: 0;
+  }
+}
+
+.trem-auto-expand {
+  overflow: hidden;
+  animation: trem-card-expand 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trem-auto-expand {
+    animation: none;
+    max-height: none;
+    opacity: 1;
+  }
+}
+
 /* Auto-scroll das telas codadas dentro do celular (demo) */
 @keyframes appdemo-scroll {
   0%,

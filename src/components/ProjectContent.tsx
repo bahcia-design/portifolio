@@ -4,17 +4,8 @@ import AppDemo from "@/components/AppDemo";
 /** Conteúdo puro de um projeto (texto + mídia), sem fundo próprio.
  *  O fundo e o posicionamento ficam por conta do ProjectStage. */
 export default function ProjectContent({ project }: { project: Project }) {
-  const {
-    title,
-    subtitle,
-    description,
-    tags,
-    fg,
-    accent,
-    media,
-    figmaEmbed,
-    appDemo,
-  } = project;
+  const { title, subtitle, description, tags, fg, media, figmaEmbed, appDemo } =
+    project;
 
   return (
     <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 py-24 md:grid-cols-2 md:px-12">
@@ -34,7 +25,7 @@ export default function ProjectContent({ project }: { project: Project }) {
 
         <h2
           className="text-4xl font-bold leading-tight tracking-tight md:text-5xl"
-          style={{ color: accent }}
+          style={{ color: fg }}
         >
           {title}
         </h2>

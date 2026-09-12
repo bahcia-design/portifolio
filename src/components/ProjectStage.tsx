@@ -6,7 +6,7 @@ import ProjectContent from "@/components/ProjectContent";
 
 const FADE = 450; // ms — duração de cada fase (sai / entra)
 const DELAY = 380; // ms — o conteúdo que entra espera o que sai limpar (sem ghosting)
-const MOVE = 40; // px — deslize curto (troca no lugar, não parece scroll)
+const MOVE = 0; // sem deslize — troca no lugar (fade puro, nada "descendo")
 const EASE = "ease";
 const CYCLE = FADE + DELAY; // duração total da troca
 
