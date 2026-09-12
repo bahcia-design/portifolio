@@ -3,16 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import AppHome from "@/components/AppHome";
 import AppTrem from "@/components/AppTrem";
+import AppMapa from "@/components/AppMapa";
 
 export type DemoFrame = {
   /** Caminho da imagem da tela (em /public) */
   src?: string;
   /** Tela codada — tem prioridade sobre src */
-  component?: "home" | "trem";
+  component?: "home" | "trem" | "mapa";
   /** Ponto do toque simulado nesta tela, em % (onde o dedo aperta pra avançar) */
   tap?: { x: number; y: number };
   /** Como ESTA tela entra: push (desliza da direita), modal (sobe), fade */
   enter?: "push" | "modal" | "fade";
+  /** Tempo (ms) que a tela fica antes de avançar (ex: mapa dura mais pra ver o sheet) */
+  hold?: number;
 };
 
 // Telas codadas têm largura nativa; o palco escala pra caber.
@@ -23,6 +26,7 @@ const SCREENS: Record<
 > = {
   home: { node: <AppHome />, width: 440, autoScroll: true },
   trem: { node: <AppTrem />, width: 390, autoScroll: false },
+  mapa: { node: <AppMapa />, width: 390, autoScroll: false },
 };
 
 // Ritmo da simulação (ms)
@@ -138,15 +142,15 @@ export default function AppDemo({ frames }: { frames: DemoFrame[] }) {
               requestAnimationFrame(() => setEntering(true)),
             );
             cur = next;
-            // 4. segura e repete
-            wait(step, TRANS + HOLD);
+            // 4. segura (tempo próprio da tela) e repete
+            wait(step, TRANS + (frames[cur].hold ?? HOLD));
           }, PRESS);
         },
         s.tap ? MOVE : 0,
       );
     };
 
-    wait(step, HOLD);
+    wait(step, frames[0].hold ?? HOLD);
     return () => timers.forEach((t) => window.clearTimeout(t));
   }, [frames]);
 

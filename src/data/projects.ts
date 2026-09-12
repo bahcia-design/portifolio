@@ -27,9 +27,10 @@ export type Project = {
   appDemo?: {
     frames: {
       src?: string;
-      component?: "home" | "trem";
+      component?: "home" | "trem" | "mapa";
       tap?: { x: number; y: number };
       enter?: "push" | "modal" | "fade";
+      hold?: number;
     }[];
   };
 };
@@ -67,7 +68,7 @@ export const projects: Project[] = [
     appDemo: {
       frames: [
         { component: "trem", tap: { x: 50, y: 96 }, enter: "fade" },
-        { src: "/projects/trem/02-mapa.png", tap: { x: 78, y: 94 }, enter: "push" },
+        { component: "mapa", enter: "push", hold: 5200 },
       ],
     },
   },
