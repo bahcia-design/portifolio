@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { projects } from "@/data/projects";
 import ProjectContent from "@/components/ProjectContent";
+import Sidebar from "@/components/Sidebar";
 
 const FADE = 450; // ms — duração de cada fase (sai / entra)
 const DELAY = 380; // ms — o conteúdo que entra espera o que sai limpar (sem ghosting)
@@ -121,6 +122,9 @@ export default function ProjectStage() {
           </div>
         );
       })}
+
+      {/* Barra lateral fixa (bio + socials) */}
+      <Sidebar fg={projects[active].fg} accent={projects[active].accent} />
 
       {/* Bolinhas de navegação entre projetos */}
       <nav className="fixed right-6 top-1/2 z-50 flex -translate-y-1/2 flex-col items-center gap-3">
