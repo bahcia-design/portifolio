@@ -33,26 +33,23 @@ export type Project = {
       hold?: number;
     }[];
   };
+  /** Projeto desktop/web: mostra numa moldura de navegador (em vez do celular) */
+  desktop?: { src: string; alt?: string };
 };
 
 export const projects: Project[] = [
   {
-    slug: "banco-whitelabel",
-    title: "Projeto de banco whitelabel",
-    subtitle: "Sua vida financeira na palma da sua mão",
+    slug: "globals-one",
+    title: "Globals One — banco digital",
+    subtitle: "Crédito corporativo simplificado",
     description:
-      "Aplicativo bancário whitelabel: uma base de produto que se adapta à marca de cada cliente. Desafio: manter consistência de componentes enquanto tema, cores e conteúdo variam por parceiro.",
-    tags: ["Mobile", "Design System", "Fintech"],
-    bg: "#6B0712",
+      "App bancário corporativo (Globals One / Lince): saldo, Pix, atalhos e crédito com análise rápida. Desafio: reunir muita informação financeira numa home escura, clara e escaneável.",
+    tags: ["Mobile", "Fintech", "Design System"],
+    bg: "#0A2A28",
     fg: "#FFFFFF",
-    accent: "#FF3B4E",
+    accent: "#2DD4BF",
     appDemo: {
-      frames: [
-        { component: "home", tap: { x: 50, y: 32 }, enter: "fade" },
-        { src: "/projects/flow/02-valor.png", tap: { x: 50, y: 93 }, enter: "push" },
-        { src: "/projects/flow/03-revisar.png", tap: { x: 50, y: 93 }, enter: "push" },
-        { src: "/projects/flow/04-pin.png", tap: { x: 50, y: 94 }, enter: "modal" },
-      ],
+      frames: [{ src: "/projects/globals/01-home.png" }],
     },
   },
   {
@@ -70,6 +67,21 @@ export const projects: Project[] = [
         { component: "trem", tap: { x: 50, y: 96 }, enter: "fade" },
         { component: "mapa", enter: "push", hold: 8600 },
       ],
+    },
+  },
+  {
+    slug: "backoffice-lince",
+    title: "Backoffice Lince Digital",
+    subtitle: "Gestão de usuários e recebíveis",
+    description:
+      "Painel web (backoffice) da Lince: gestão de colaboradores, empresas e recebíveis, com papéis e permissões. Desafio: densidade de dados em tabelas sem perder a leitura.",
+    tags: ["Web", "Backoffice", "Design System"],
+    bg: "#1E293B",
+    fg: "#FFFFFF",
+    accent: "#2DD4BF",
+    desktop: {
+      src: "/projects/backoffice/01-cadastrados.png",
+      alt: "Backoffice Lince — Gestão de usuários",
     },
   },
 ];

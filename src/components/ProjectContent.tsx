@@ -4,8 +4,17 @@ import AppDemo from "@/components/AppDemo";
 /** Conteúdo puro de um projeto (texto + mídia), sem fundo próprio.
  *  O fundo e o posicionamento ficam por conta do ProjectStage. */
 export default function ProjectContent({ project }: { project: Project }) {
-  const { title, subtitle, description, tags, fg, media, figmaEmbed, appDemo } =
-    project;
+  const {
+    title,
+    subtitle,
+    description,
+    tags,
+    fg,
+    media,
+    figmaEmbed,
+    appDemo,
+    desktop,
+  } = project;
 
   return (
     <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 py-24 md:grid-cols-2 md:px-12">
@@ -37,9 +46,25 @@ export default function ProjectContent({ project }: { project: Project }) {
         </p>
       </div>
 
-      {/* Direita: simulação do app, ou mídia (imagem, vídeo, placeholder) */}
+      {/* Direita: desktop (navegador), simulação do app, ou mídia */}
       <div className="flex items-center justify-center">
-        {appDemo ? (
+        {desktop ? (
+          // Moldura de navegador para projetos web/desktop
+          <div className="w-full max-w-xl overflow-hidden rounded-xl shadow-2xl ring-1 ring-white/15">
+            <div className="flex items-center gap-1.5 bg-neutral-800 px-3 py-2.5">
+              <span className="size-2.5 rounded-full bg-red-400/80" />
+              <span className="size-2.5 rounded-full bg-yellow-400/80" />
+              <span className="size-2.5 rounded-full bg-green-400/80" />
+            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={desktop.src}
+              alt={desktop.alt ?? title}
+              className="block w-full"
+              draggable={false}
+            />
+          </div>
+        ) : appDemo ? (
           // Moldura de celular com a demo autoplay
           <div className="aspect-[438/950] w-full max-w-[280px] overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-black/10">
             <AppDemo frames={appDemo.frames} />
