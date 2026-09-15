@@ -35,6 +35,8 @@ export type Project = {
   };
   /** Projeto desktop/web: mostra numa moldura de navegador (em vez do celular) */
   desktop?: { src: string; alt?: string };
+  /** Carrossel de telas (imagens) no celular — passa sozinho, em loop */
+  carousel?: { images: string[] };
 };
 
 export const projects: Project[] = [
@@ -48,8 +50,17 @@ export const projects: Project[] = [
     bg: "#0A2A28",
     fg: "#FFFFFF",
     accent: "#2DD4BF",
-    appDemo: {
-      frames: [{ src: "/projects/globals/01-home.png" }],
+    carousel: {
+      images: [
+        "/projects/globals/01-home.png",
+        "/projects/globals/02-menu.png",
+        "/projects/globals/03-area-pix.png",
+        "/projects/globals/04-valor.png",
+        "/projects/globals/05-revisao.png",
+        "/projects/globals/06-pin.png",
+        "/projects/globals/07-sucesso.png",
+        "/projects/globals/08-pagar.png",
+      ],
     },
   },
   {

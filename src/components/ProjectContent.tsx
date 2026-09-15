@@ -1,5 +1,6 @@
 import type { Project } from "@/data/projects";
 import AppDemo from "@/components/AppDemo";
+import Carousel from "@/components/Carousel";
 
 /** Conteúdo puro de um projeto (texto + mídia), sem fundo próprio.
  *  O fundo e o posicionamento ficam por conta do ProjectStage. */
@@ -14,6 +15,7 @@ export default function ProjectContent({ project }: { project: Project }) {
     figmaEmbed,
     appDemo,
     desktop,
+    carousel,
   } = project;
 
   return (
@@ -63,6 +65,11 @@ export default function ProjectContent({ project }: { project: Project }) {
               className="block w-full"
               draggable={false}
             />
+          </div>
+        ) : carousel ? (
+          // Celular com carrossel de telas
+          <div className="aspect-[438/950] w-full max-w-[280px] overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-black/10">
+            <Carousel images={carousel.images} />
           </div>
         ) : appDemo ? (
           // Moldura de celular com a demo autoplay
