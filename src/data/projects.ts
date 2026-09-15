@@ -5,8 +5,18 @@ export type Project = {
   title: string;
   /** Frase curta de apoio */
   subtitle: string;
-  /** Descrição / desafios — pode virar lista depois */
+  /** Descrição / contexto */
   description: string;
+  /** Setor (ex: "Engenharia e Construção") */
+  sector?: string;
+  /** Cliente final (ex: "Rumo") */
+  client?: string;
+  /** Desafio(s) — problema */
+  challenge?: string[];
+  /** Solução(ões) */
+  solution?: string[];
+  /** Impacto(s) / resultado */
+  impact?: string[];
   /** Tags para o filtro futuro */
   tags: string[];
   /** Cor de fundo da seção */
@@ -65,11 +75,25 @@ export const projects: Project[] = [
   },
   {
     slug: "inspecao-trem",
-    title: "Análise e inspeções de trem",
-    subtitle: "Gestão de ocorrências em campo",
+    title: "Project Data",
+    subtitle: "Inspeção de linhas ferroviárias — em campo, offline",
+    sector: "Engenharia e Construção",
+    client: "Rumo",
     description:
-      "Ferramenta para inspeção de trechos ferroviários com trabalho offline. Desafio: sincronizar ocorrências e trajetos quando o sinal cai no meio da via.",
-    tags: ["Mobile", "Field Ops", "Offline-first"],
+      "A Globals atuou como desenvolvedora do Project Data, solução para manutenção de linhas férreas em ambientes remotos — com algoritmos próprios (teoremas matemáticos) que rastreiam posição e direção dos técnicos sem depender de internet.",
+    challenge: [
+      "Funcionar em campo sem sinal de internet ou Wi-Fi.",
+      "As bibliotecas do React Native não detectavam com precisão a direção e os passos do técnico para posicioná-lo no mapa.",
+    ],
+    solution: [
+      "Algoritmos próprios, baseados em teoremas matemáticos, para calcular a distância percorrida e a direção do técnico.",
+      "Integração desses algoritmos ao app, superando as limitações das bibliotecas existentes.",
+    ],
+    impact: [
+      "Aplicativo funcional em ambientes sem conectividade.",
+      "Rastreamento preciso da posição e direção em campo, otimizando as manutenções ferroviárias.",
+    ],
+    tags: ["Mobile", "Offline-first", "React Native"],
     bg: "#0D2340",
     fg: "#FFFFFF",
     accent: "#3B82F6",

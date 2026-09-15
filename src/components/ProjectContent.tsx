@@ -2,6 +2,41 @@ import type { Project } from "@/data/projects";
 import AppDemo from "@/components/AppDemo";
 import Carousel from "@/components/Carousel";
 
+/** Seção de case (Desafio / Solução / Impacto) com bullets. */
+function CaseSection({
+  label,
+  items,
+  accent,
+  fg,
+}: {
+  label: string;
+  items: string[];
+  accent: string;
+  fg: string;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      <p
+        className="text-xs font-bold uppercase tracking-wider"
+        style={{ color: accent }}
+      >
+        {label}
+      </p>
+      <ul className="flex flex-col gap-1.5">
+        {items.map((it, i) => (
+          <li key={i} className="flex gap-2 text-sm leading-snug opacity-80">
+            <span
+              className="mt-[7px] size-1 shrink-0 rounded-full"
+              style={{ backgroundColor: fg }}
+            />
+            <span>{it}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 /** Conteúdo puro de um projeto (texto + mídia), sem fundo próprio.
  *  O fundo e o posicionamento ficam por conta do ProjectStage. */
 export default function ProjectContent({ project }: { project: Project }) {
@@ -11,6 +46,12 @@ export default function ProjectContent({ project }: { project: Project }) {
     description,
     tags,
     fg,
+    accent,
+    sector,
+    client,
+    challenge,
+    solution,
+    impact,
     media,
     figmaEmbed,
     appDemo,
@@ -20,8 +61,14 @@ export default function ProjectContent({ project }: { project: Project }) {
 
   return (
     <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 py-24 md:grid-cols-2 md:px-12">
-      {/* Esquerda: texto */}
-      <div className="flex flex-col gap-6">
+      {/* Esquerda: texto (rola internamente se for longo) */}
+      <div className="flex max-h-[76vh] max-w-md flex-col gap-4 overflow-y-auto pr-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {(sector || client) && (
+          <p className="text-xs font-semibold uppercase tracking-wider opacity-60">
+            {[sector, client].filter(Boolean).join(" · ")}
+          </p>
+        )}
+
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <span
@@ -35,17 +82,27 @@ export default function ProjectContent({ project }: { project: Project }) {
         </div>
 
         <h2
-          className="text-4xl font-bold leading-tight tracking-tight md:text-5xl"
+          className="text-3xl font-bold leading-tight tracking-tight md:text-4xl"
           style={{ color: fg }}
         >
           {title}
         </h2>
 
-        <p className="text-xl font-medium opacity-90">{subtitle}</p>
+        <p className="text-lg font-medium opacity-90">{subtitle}</p>
 
-        <p className="max-w-md text-base leading-relaxed opacity-70">
-          {description}
-        </p>
+        {description && (
+          <p className="text-sm leading-relaxed opacity-70">{description}</p>
+        )}
+
+        {challenge && (
+          <CaseSection label="Desafio" items={challenge} accent={accent} fg={fg} />
+        )}
+        {solution && (
+          <CaseSection label="Solução" items={solution} accent={accent} fg={fg} />
+        )}
+        {impact && (
+          <CaseSection label="Impacto" items={impact} accent={accent} fg={fg} />
+        )}
       </div>
 
       {/* Direita: desktop (navegador), simulação do app, ou mídia */}
