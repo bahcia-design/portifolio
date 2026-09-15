@@ -1,42 +1,81 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-/** Carrossel elegante de telas (slide horizontal suave + bolinhas).
- *  Usado no celular pra passar pelas telas do app em loop. */
+/** Carrossel de telas: autoplay em loop + o usuário pode passar na mão
+ *  (swipe/arrasto) e clicar nas bolinhas. */
 
 const SLIDE = 650; // ms da transição
-const HOLD = 2800; // ms parado em cada tela
+const HOLD = 2800; // ms parado em cada tela (autoplay)
 
 export default function Carousel({ images }: { images: string[] }) {
+  const n = images.length;
   const [idx, setIdx] = useState(0);
   const [prev, setPrev] = useState<number | null>(null);
   const [entering, setEntering] = useState(true);
+  const [dir, setDir] = useState<1 | -1>(1);
+  const idxRef = useRef(0);
+  const timerRef = useRef(0);
+
+  // Vai pra tela idx+delta (delta>0 = próxima), com a direção certa do slide.
+  const go = (delta: number) => {
+    if (n <= 1 || !delta) return;
+    const next = ((idxRef.current + delta) % n + n) % n;
+    if (next === idxRef.current) return;
+    setDir(delta > 0 ? 1 : -1);
+    setPrev(idxRef.current);
+    idxRef.current = next;
+    setIdx(next);
+    setEntering(false);
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => setEntering(true)),
+    );
+  };
+
+  // (Re)inicia o autoplay.
+  const scheduleAuto = () => {
+    window.clearTimeout(timerRef.current);
+    if (n <= 1) return;
+    const tick = () => {
+      go(1);
+      timerRef.current = window.setTimeout(tick, SLIDE + HOLD);
+    };
+    timerRef.current = window.setTimeout(tick, SLIDE + HOLD);
+  };
 
   useEffect(() => {
-    if (images.length <= 1) return;
-    let cur = 0;
-    const timers: number[] = [];
-    const wait = (fn: () => void, ms: number) => {
-      timers.push(window.setTimeout(fn, ms));
-    };
-    const step = () => {
-      const next = (cur + 1) % images.length;
-      setPrev(cur);
-      setIdx(next);
-      setEntering(false);
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => setEntering(true)),
-      );
-      cur = next;
-      wait(step, SLIDE + HOLD);
-    };
-    wait(step, HOLD);
-    return () => timers.forEach((t) => window.clearTimeout(t));
-  }, [images.length]);
+    scheduleAuto();
+    return () => window.clearTimeout(timerRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [n]);
+
+  // Arrasto/swipe (mouse, touch, pen) — release-based.
+  const startX = useRef<number | null>(null);
+  const onDown = (e: React.PointerEvent) => {
+    startX.current = e.clientX;
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+  };
+  const onUp = (e: React.PointerEvent) => {
+    if (startX.current == null) return;
+    const dx = e.clientX - startX.current;
+    startX.current = null;
+    if (Math.abs(dx) > 40) {
+      go(dx < 0 ? 1 : -1); // arrastou pra esquerda = próxima
+      scheduleAuto();
+    }
+  };
+
+  const goTo = (i: number) => {
+    go(i - idxRef.current);
+    scheduleAuto();
+  };
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-black">
+    <div
+      className="relative h-full w-full cursor-grab touch-pan-y select-none overflow-hidden bg-black active:cursor-grabbing"
+      onPointerDown={onDown}
+      onPointerUp={onUp}
+    >
       {images.map((src, i) => {
         const isCur = i === idx;
         const isPrev = i === prev;
@@ -44,9 +83,9 @@ export default function Carousel({ images }: { images: string[] }) {
         const transform = isCur
           ? entering
             ? "translateX(0)"
-            : "translateX(100%)"
+            : `translateX(${dir * 100}%)`
           : entering
-            ? "translateX(-100%)"
+            ? `translateX(${-dir * 100}%)`
             : "translateX(0)";
         return (
           <div
@@ -62,23 +101,26 @@ export default function Carousel({ images }: { images: string[] }) {
             <img
               src={src}
               alt=""
-              className="h-full w-full object-cover object-top"
+              className="pointer-events-none h-full w-full object-cover object-top"
               draggable={false}
             />
           </div>
         );
       })}
 
-      {/* bolinhas de paginação */}
-      <div className="absolute inset-x-0 bottom-2.5 z-10 flex items-center justify-center gap-1.5">
+      {/* bolinhas de paginação (clicáveis) */}
+      <div className="absolute inset-x-0 bottom-2.5 z-10 flex items-center justify-center">
         <div className="flex items-center gap-1.5 rounded-full bg-black/35 px-2 py-1 backdrop-blur-sm">
           {images.map((_, i) => (
-            <span
+            <button
               key={i}
+              aria-label={`Ir para a tela ${i + 1}`}
+              onClick={() => goTo(i)}
               className="h-1.5 rounded-full transition-all duration-300"
               style={{
                 width: i === idx ? 14 : 6,
-                backgroundColor: i === idx ? "#ffffff" : "rgba(255,255,255,0.4)",
+                backgroundColor:
+                  i === idx ? "#ffffff" : "rgba(255,255,255,0.4)",
               }}
             />
           ))}
