@@ -124,7 +124,7 @@ export default function ProjectStage() {
       })}
 
       {/* Barra lateral fixa (bio + socials) */}
-      <Sidebar fg={projects[active].fg} accent={projects[active].accent} />
+      <Sidebar fg={projects[active].fg} />
 
       {/* Bolinhas de navegação entre projetos */}
       <nav className="fixed right-6 top-1/2 z-50 flex -translate-y-1/2 flex-col items-center gap-3">

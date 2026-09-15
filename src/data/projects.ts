@@ -52,7 +52,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "globals-one",
-    title: "Globals One — banco digital",
+    title: "Globals One",
     subtitle: "Crédito corporativo simplificado",
     description:
       "App bancário corporativo (Globals One / Lince): saldo, Pix, atalhos e crédito com análise rápida. Desafio: reunir muita informação financeira numa home escura, clara e escaneável.",
@@ -76,11 +76,11 @@ export const projects: Project[] = [
   {
     slug: "inspecao-trem",
     title: "Project Data",
-    subtitle: "Inspeção de linhas ferroviárias — em campo, offline",
+    subtitle: "Inspeção de linhas ferroviárias, em campo e offline",
     sector: "Engenharia e Construção",
     client: "Rumo",
     description:
-      "Nesse projeto, o desafio foi fazer um app de manutenção de linhas férreas funcionar em campo, sem internet nem Wi-Fi — e contornar as limitações das bibliotecas de React Native, que não rastreavam com precisão a direção e os passos do técnico para posicioná-lo no mapa.",
+      "Nesse projeto, o desafio foi fazer um app de manutenção de linhas férreas funcionar em campo, sem internet nem Wi-Fi, e contornar as limitações das bibliotecas de React Native, que não rastreavam com precisão a direção e os passos do técnico para posicioná-lo no mapa.",
     solution: [
       "Algoritmos próprios, baseados em teoremas matemáticos, para calcular a distância percorrida e a direção do técnico.",
       "Integração desses algoritmos ao app, superando as limitações das bibliotecas existentes.",
@@ -112,7 +112,7 @@ export const projects: Project[] = [
     accent: "#2DD4BF",
     desktop: {
       src: "/projects/backoffice/01-cadastrados.png",
-      alt: "Backoffice Lince — Gestão de usuários",
+      alt: "Backoffice Lince · Gestão de usuários",
     },
   },
 ];

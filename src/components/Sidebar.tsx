@@ -2,21 +2,11 @@ import { profile } from "@/data/profile";
 
 /** Barra lateral fixa (estilo Brittany): bio no topo, socials no rodapé.
  *  Fica por cima das camadas de projeto, alinhada à coluna esquerda. */
-export default function Sidebar({ fg, accent }: { fg: string; accent: string }) {
+export default function Sidebar({ fg }: { fg: string }) {
   return (
     <div className="pointer-events-none absolute inset-0 z-40" style={{ color: fg }}>
       <div className="mx-auto grid h-full max-w-6xl grid-cols-1 gap-12 px-6 py-12 md:grid-cols-2 md:px-12">
-        <div className="pointer-events-auto flex h-full flex-col justify-between">
-          {/* Bio (fixa) */}
-          <div className="flex flex-col gap-3">
-            <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
-              {profile.name}
-            </h1>
-            <p className="text-lg font-medium" style={{ color: accent }}>
-              {profile.role}
-            </p>
-          </div>
-
+        <div className="pointer-events-auto flex h-full flex-col justify-end">
           {/* Redes sociais (fixas) */}
           <ul className="-ml-3 flex flex-wrap items-center gap-1">
             {profile.socials.map((s) => (
