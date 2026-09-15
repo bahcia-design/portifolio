@@ -49,7 +49,6 @@ export default function ProjectContent({ project }: { project: Project }) {
     accent,
     sector,
     client,
-    challenge,
     solution,
     impact,
     media,
@@ -94,14 +93,25 @@ export default function ProjectContent({ project }: { project: Project }) {
           <p className="text-sm leading-relaxed opacity-70">{description}</p>
         )}
 
-        {challenge && (
-          <CaseSection label="Desafio" items={challenge} accent={accent} fg={fg} />
-        )}
-        {solution && (
-          <CaseSection label="Solução" items={solution} accent={accent} fg={fg} />
-        )}
-        {impact && (
-          <CaseSection label="Impacto" items={impact} accent={accent} fg={fg} />
+        {(solution || impact) && (
+          <div className="grid grid-cols-2 gap-6">
+            {solution && (
+              <CaseSection
+                label="Solução"
+                items={solution}
+                accent={accent}
+                fg={fg}
+              />
+            )}
+            {impact && (
+              <CaseSection
+                label="Impacto"
+                items={impact}
+                accent={accent}
+                fg={fg}
+              />
+            )}
+          </div>
         )}
       </div>
 

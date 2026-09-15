@@ -15,9 +15,6 @@ export default function Sidebar({ fg, accent }: { fg: string; accent: string }) 
             <p className="text-lg font-medium" style={{ color: accent }}>
               {profile.role}
             </p>
-            <p className="max-w-xs text-sm leading-relaxed opacity-70">
-              {profile.tagline}
-            </p>
           </div>
 
           {/* Redes sociais (fixas) */}

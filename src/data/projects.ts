@@ -80,11 +80,7 @@ export const projects: Project[] = [
     sector: "Engenharia e Construção",
     client: "Rumo",
     description:
-      "A Globals atuou como desenvolvedora do Project Data, solução para manutenção de linhas férreas em ambientes remotos — com algoritmos próprios (teoremas matemáticos) que rastreiam posição e direção dos técnicos sem depender de internet.",
-    challenge: [
-      "Funcionar em campo sem sinal de internet ou Wi-Fi.",
-      "As bibliotecas do React Native não detectavam com precisão a direção e os passos do técnico para posicioná-lo no mapa.",
-    ],
+      "Nesse projeto, o desafio foi fazer um app de manutenção de linhas férreas funcionar em campo, sem internet nem Wi-Fi — e contornar as limitações das bibliotecas de React Native, que não rastreavam com precisão a direção e os passos do técnico para posicioná-lo no mapa.",
     solution: [
       "Algoritmos próprios, baseados em teoremas matemáticos, para calcular a distância percorrida e a direção do técnico.",
       "Integração desses algoritmos ao app, superando as limitações das bibliotecas existentes.",
