@@ -125,13 +125,19 @@ export default function ProjectContent({ project }: { project: Project }) {
               <span className="size-2.5 rounded-full bg-yellow-400/80" />
               <span className="size-2.5 rounded-full bg-green-400/80" />
             </div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={desktop.src}
-              alt={desktop.alt ?? title}
-              className="block w-full"
-              draggable={false}
-            />
+            {carousel ? (
+              <div className="aspect-[1440/1024] w-full">
+                <Carousel images={carousel.images} />
+              </div>
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={desktop.src}
+                alt={desktop.alt ?? title}
+                className="block w-full"
+                draggable={false}
+              />
+            )}
           </div>
         ) : carousel ? (
           // Celular com carrossel de telas

@@ -93,10 +93,13 @@ export const projects: Project[] = [
     bg: "#0D2340",
     fg: "#FFFFFF",
     accent: "#3B82F6",
-    appDemo: {
-      frames: [
-        { component: "trem", tap: { x: 50, y: 96 }, enter: "fade" },
-        { component: "mapa", enter: "push", hold: 8600 },
+    carousel: {
+      images: [
+        "/projects/trem/01-mapa.png",
+        "/projects/trem/02-ocorrencia.png",
+        "/projects/trem/03-novo-elemento.png",
+        "/projects/trem/04-inspecao.png",
+        "/projects/trem/05-gestao.png",
       ],
     },
   },
@@ -113,6 +116,12 @@ export const projects: Project[] = [
     desktop: {
       src: "/projects/backoffice/01-cadastrados.png",
       alt: "Backoffice Lince · Gestão de usuários",
+    },
+    carousel: {
+      images: [
+        "/projects/backoffice/01-cadastrados.png",
+        "/projects/backoffice/01-dash.png",
+      ],
     },
   },
 ];
