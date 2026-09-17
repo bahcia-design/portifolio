@@ -61,8 +61,8 @@ export const projects: Project[] = [
     description:
       "App bancário corporativo white label: saldo, Pix, atalhos e crédito com análise rápida. Desafio: reunir muita informação financeira numa home escura, clara e escaneável.",
     tags: ["Mobile", "Fintech", "Design System"],
-    bg: "#0A2A28",
-    fg: "#FFFFFF",
+    bg: "#17100C",
+    fg: "#F6F1E8",
     accent: "#2DD4BF",
     carousel: {
       images: [
@@ -87,8 +87,8 @@ export const projects: Project[] = [
     outcome:
       "Como impacto, foi entregue um app com o mapa no centro: mostra sempre a via e onde o técnico está, sinaliza pendências já resolvidas ou não, e deixa registrar ocorrências e pausar ou retomar a inspeção de onde parou. Tudo pensado com foco em acessibilidade e leitura rápida.",
     tags: ["Mobile", "UX/UI", "Acessibilidade"],
-    bg: "#0D2340",
-    fg: "#FFFFFF",
+    bg: "#17100C",
+    fg: "#F6F1E8",
     accent: "#3B82F6",
     carousel: {
       images: [
@@ -107,8 +107,8 @@ export const projects: Project[] = [
     description:
       "Painel web (backoffice) de uma ferramenta de antecipação de recebíveis: gestão de colaboradores, empresas e recebíveis, com papéis e permissões. Desafio: densidade de dados em tabelas sem perder a leitura.",
     tags: ["Web", "Backoffice", "Design System"],
-    bg: "#1E293B",
-    fg: "#FFFFFF",
+    bg: "#17100C",
+    fg: "#F6F1E8",
     accent: "#2DD4BF",
     desktop: {
       src: "/projects/backoffice/01-cadastrados.png",
@@ -131,8 +131,8 @@ export const projects: Project[] = [
     outcome:
       "Como impacto, a plataforma ganhou uma interface nova e consistente: home com busca em destaque, listagem com filtros ricos (marca, categoria, preço, câmbio e mais), páginas de veículo e de loja repaginadas e um backoffice completo para anúncios, leads, planos e equipe. Tudo apoiado por um design system que mantém a experiência coerente do público ao administrativo.",
     tags: ["Web", "UX/UI", "Redesign"],
-    bg: "#0F2A43",
-    fg: "#FFFFFF",
+    bg: "#17100C",
+    fg: "#F6F1E8",
     accent: "#F5851F",
     desktop: {
       src: "/projects/truckhaven/01-home.png",
@@ -156,8 +156,8 @@ export const projects: Project[] = [
     outcome:
       "Como impacto, foi entregue um produto responsivo de ponta a ponta: um construtor de cardápio (quadro semanal por refeição) para o nutricionista e uma visão pública do plano para o aluno, com dias da semana, horários e receitas fáceis de navegar. A mesma identidade elegante se mantém do desktop ao celular.",
     tags: ["Mobile-first", "Web", "UX/UI"],
-    bg: "#33261E",
-    fg: "#FFFFFF",
+    bg: "#17100C",
+    fg: "#F6F1E8",
     accent: "#E0A458",
     responsive: {
       web: "/projects/mealstudio/web-01-cardapio.png",
