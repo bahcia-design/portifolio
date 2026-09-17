@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { projects } from "@/data/projects";
 import ProjectContent from "@/components/ProjectContent";
+import Cover from "@/components/Cover";
 import Sidebar from "@/components/Sidebar";
 
 const FADE = 450; // ms — duração de cada fase (sai / entra)
@@ -11,8 +12,14 @@ const MOVE = 0; // sem deslize — troca no lugar (fade puro, nada "descendo")
 const EASE = "ease";
 const CYCLE = FADE + DELAY; // duração total da troca
 
+// Seção 0 = capa; seções 1..N = projetos.
+const COVER = { bg: "#111113", fg: "#FFFFFF" };
+const sectionBg = (i: number) => (i === 0 ? COVER.bg : projects[i - 1].bg);
+const sectionFg = (i: number) => (i === 0 ? COVER.fg : projects[i - 1].fg);
+const sectionLabel = (i: number) => (i === 0 ? "Início" : projects[i - 1].title);
+
 export default function ProjectStage() {
-  const count = projects.length;
+  const count = projects.length + 1; // capa + projetos
   const [active, setActive] = useState(0);
   const activeRef = useRef(0);
   const lockRef = useRef(false);
@@ -76,7 +83,7 @@ export default function ProjectStage() {
     };
   }, []);
 
-  // Pula direto pra um projeto (bolinhas de navegação).
+  // Pula direto pra uma seção (índice do projeto, ou bolinhas de navegação).
   const goTo = (index: number) => {
     if (lockRef.current) return;
     const next = Math.min(Math.max(index, 0), count - 1);
@@ -94,55 +101,56 @@ export default function ProjectStage() {
     <div
       className="fixed inset-0 overflow-hidden"
       style={{
-        backgroundColor: projects[active].bg,
+        backgroundColor: sectionBg(active),
         transition: `background-color ${CYCLE}ms ${EASE}`,
       }}
     >
-      {projects.map((project, i) => {
+      {Array.from({ length: count }, (_, i) => {
         const rel = i - active; // 0 = ativo, <0 = já passou (acima), >0 = próximo (abaixo)
         const dir = Math.max(-1, Math.min(1, rel)); // direção do deslize
         const isActive = rel === 0;
         return (
-          // Troca no lugar: sai (some subindo) → entra (aparece subindo). Curto, sem dissolver.
           <div
-            key={project.slug}
+            key={i}
             className="absolute inset-0 flex items-center will-change-transform"
             style={{
-              color: project.fg,
+              color: sectionFg(i),
               opacity: isActive ? 1 : 0,
               transform: `translateY(${isActive ? 0 : dir * MOVE}px)`,
               transition: `opacity ${FADE}ms ${EASE}, transform ${FADE}ms ${EASE}`,
-              // O que entra espera o que sai limpar; o que sai vai embora na hora.
               transitionDelay: isActive ? `${DELAY}ms` : "0ms",
               pointerEvents: isActive ? "auto" : "none",
             }}
             aria-hidden={!isActive}
           >
-            <ProjectContent project={project} />
+            {i === 0 ? (
+              <Cover projects={projects} onOpen={goTo} />
+            ) : (
+              <ProjectContent project={projects[i - 1]} />
+            )}
           </div>
         );
       })}
 
-      {/* Barra lateral fixa (bio + socials) */}
-      <Sidebar fg={projects[active].fg} />
+      {/* Barra lateral fixa (socials) — só nos projetos; a capa tem os seus */}
+      {active > 0 && <Sidebar fg={projects[active - 1].fg} />}
 
-      {/* Bolinhas de navegação entre projetos */}
+      {/* Bolinhas de navegação (capa + projetos) */}
       <nav className="fixed right-6 top-1/2 z-50 flex -translate-y-1/2 flex-col items-center gap-3">
-        {projects.map((project, i) => {
+        {Array.from({ length: count }, (_, i) => {
           const isActive = i === active;
+          const fg = sectionFg(active);
           return (
             <button
-              key={project.slug}
+              key={i}
               onClick={() => goTo(i)}
-              aria-label={`Ir para ${project.title}`}
+              aria-label={`Ir para ${sectionLabel(i)}`}
               aria-current={isActive}
               className="rounded-full transition-all duration-300"
               style={{
                 width: 8,
                 height: isActive ? 24 : 8,
-                backgroundColor: isActive
-                  ? projects[active].fg
-                  : `${projects[active].fg}59`,
+                backgroundColor: isActive ? fg : `${fg}59`,
               }}
             />
           );

@@ -1,6 +1,7 @@
 import type { Project } from "@/data/projects";
 import AppDemo from "@/components/AppDemo";
 import Carousel from "@/components/Carousel";
+import ResponsiveShowcase from "@/components/ResponsiveShowcase";
 
 /** Seção de case (Desafio / Solução / Impacto) com bullets. */
 function CaseSection({
@@ -51,10 +52,12 @@ export default function ProjectContent({ project }: { project: Project }) {
     client,
     solution,
     impact,
+    outcome,
     media,
     figmaEmbed,
     appDemo,
     desktop,
+    responsive,
     carousel,
   } = project;
 
@@ -93,6 +96,18 @@ export default function ProjectContent({ project }: { project: Project }) {
           <p className="text-sm leading-relaxed opacity-70">{description}</p>
         )}
 
+        {outcome && (
+          <div className="flex flex-col gap-2">
+            <p
+              className="text-xs font-bold uppercase tracking-wider"
+              style={{ color: accent }}
+            >
+              Solução e impacto
+            </p>
+            <p className="text-sm leading-relaxed opacity-80">{outcome}</p>
+          </div>
+        )}
+
         {(solution || impact) && (
           <div className="grid grid-cols-2 gap-6">
             {solution && (
@@ -117,7 +132,15 @@ export default function ProjectContent({ project }: { project: Project }) {
 
       {/* Direita: desktop (navegador), simulação do app, ou mídia */}
       <div className="flex items-center justify-center">
-        {desktop ? (
+        {responsive ? (
+          <ResponsiveShowcase
+            web={responsive.web}
+            mobile={responsive.mobile}
+            alt={responsive.alt ?? title}
+            fg={fg}
+            accent={accent}
+          />
+        ) : desktop ? (
           // Moldura de navegador para projetos web/desktop
           <div className="w-full max-w-xl overflow-hidden rounded-xl shadow-2xl ring-1 ring-white/15">
             <div className="flex items-center gap-1.5 bg-neutral-800 px-3 py-2.5">
