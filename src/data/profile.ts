@@ -7,8 +7,7 @@ export const profile = {
     "Desenho produtos digitais — do fluxo à interface — com foco em clareza e uso real.",
   socials: [
     { label: "GitHub", href: "https://github.com/bahcia-design" },
-    { label: "LinkedIn", href: "#" },
-    { label: "Behance", href: "#" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/barbara-cia/" },
     { label: "Email", href: "mailto:barbaracia.bc@gmail.com" },
   ],
 };

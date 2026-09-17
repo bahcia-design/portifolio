@@ -3,84 +3,87 @@
 import { profile } from "@/data/profile";
 import type { Project } from "@/data/projects";
 
-/** Capa do portfólio: identidade à esquerda, índice clicável dos projetos
- *  à direita. Clicar num projeto mergulha no case imersivo. */
-export default function Cover({
-  projects,
-  onOpen,
-}: {
-  projects: Project[];
-  onOpen: (sectionIndex: number) => void;
-}) {
+// Paleta: Espresso (fundo) · Oat Milk (texto) · Clementine (accent) · Cobalt (contraste pontual)
+const CREAM = "#F6F1E8";
+const CLEMENTINE = "#E2572B";
+
+// Fonte do título editorial
+const HEAD_FONT = "var(--font-instrument)";
+
+/** Capa do portfólio (estilo hero editorial): identidade + cargo em destaque.
+ *  A navegação para os cases é pelo menu lateral, o scroll e o CTA. */
+export default function Cover({ onOpen }: { onOpen: (i: number) => void; projects: Project[] }) {
   return (
-    <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 py-24 md:grid-cols-2 md:px-12">
-      {/* Esquerda: identidade */}
-      <div className="flex max-w-md flex-col gap-5">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/50">
-          Product Designer
+    <div className="relative flex h-full w-full flex-col">
+      {/* Bloco central: eyebrow + título gigante */}
+      <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6 md:px-12">
+        <p
+          className="mb-6 flex flex-wrap items-baseline gap-x-2 font-[family-name:var(--font-roboto-mono)] text-xs uppercase tracking-[0.22em]"
+          style={{ color: `${CREAM}99` }}
+        >
+          <span
+            className="font-[family-name:var(--font-brush)] text-2xl normal-case tracking-normal"
+            style={{ color: CLEMENTINE }}
+          >
+            oi,
+          </span>
+          eu sou a Bárbara · Americana, SP
         </p>
-        <h1 className="text-5xl font-bold leading-[1.03] tracking-tight md:text-6xl">
-          Bárbara Cia
+
+        <h1
+          className="text-6xl leading-[0.92] tracking-tight md:text-8xl lg:text-[7.5rem]"
+          style={{ color: CREAM, fontFamily: HEAD_FONT }}
+        >
+          product designer{" "}
+          <span className="italic" style={{ color: CLEMENTINE }}>
+            &amp;
+          </span>
+          <br />
+          <span className="text-[0.82em] italic">graphic designer</span>
         </h1>
-        <p className="text-base leading-relaxed text-white/70">
-          Desenho produtos web e mobile de alta complexidade, de sistemas de
-          missão crítica ao setor financeiro, do Discovery ao handoff, num fluxo
-          AI-first. Design systems, acessibilidade e interfaces de alta densidade
-          de informação.
-        </p>
-        <ul className="mt-1 -ml-3 flex flex-wrap items-center gap-1">
-          {profile.socials.map((s) => (
-            <li key={s.label}>
-              <a
-                href={s.href}
-                target={s.href.startsWith("http") ? "_blank" : undefined}
-                rel="noopener noreferrer"
-                className="rounded-full px-3 py-1.5 text-sm font-medium text-white/70 transition-colors hover:text-white"
-              >
-                {s.label}
-              </a>
-            </li>
-          ))}
-        </ul>
       </div>
 
-      {/* Direita: índice de projetos */}
-      <div className="flex flex-col">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-white/40">
-          Projetos
-        </p>
-        <ul className="flex flex-col border-b border-white/10">
-          {projects.map((p, i) => (
-            <li key={p.slug}>
-              <button
-                onClick={() => onOpen(i + 1)}
-                className="group flex w-full items-center gap-4 border-t border-white/10 py-4 text-left transition-colors hover:bg-white/[0.04]"
-              >
-                <span className="w-6 text-sm tabular-nums text-white/40">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span
-                  className="size-3 shrink-0 rounded-full"
-                  style={{ backgroundColor: p.accent }}
-                />
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate font-semibold text-white">
-                    {p.title}
-                  </span>
-                  <span className="block truncate text-sm text-white/50">
-                    {p.subtitle}
-                  </span>
-                </span>
-                <span className="text-white/30 transition-all group-hover:translate-x-1 group-hover:text-white">
-                  →
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-5 text-sm text-white/40">
-          Role para navegar ou clique num projeto.
-        </p>
+      {/* Rodapé do hero: bio curta + CTA */}
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 pb-16 md:flex-row md:items-end md:justify-between md:px-12">
+        <div className="max-w-sm">
+          <p className="text-base leading-relaxed" style={{ color: `${CREAM}B3` }}>
+            Product Designer com formação em Design Gráfico, atuo no design de
+            produtos web e mobile, criando interfaces que qualquer um consegue
+            usar.
+          </p>
+          <p
+            className="mt-3 font-[family-name:var(--font-roboto-mono)] text-[11px] uppercase tracking-[0.18em]"
+            style={{ color: `${CREAM}73` }}
+          >
+            UI/UX · Design Systems · Web &amp; Mobile · Acessibilidade
+          </p>
+        </div>
+
+        <div className="flex items-center gap-5">
+          <button
+            onClick={() => onOpen(1)}
+            className="group inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold uppercase tracking-wider transition-transform hover:-translate-y-0.5"
+            style={{ backgroundColor: CLEMENTINE, color: "#17100C" }}
+          >
+            Ver projetos
+            <span className="transition-transform group-hover:translate-x-1">→</span>
+          </button>
+          <ul className="hidden items-center gap-1 sm:flex">
+            {profile.socials.map((s) => (
+              <li key={s.label}>
+                <a
+                  href={s.href}
+                  target={s.href.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  className="rounded-full px-3 py-1.5 text-sm font-medium transition-colors"
+                  style={{ color: `${CREAM}99` }}
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

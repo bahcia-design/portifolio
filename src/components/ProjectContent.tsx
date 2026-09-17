@@ -66,7 +66,7 @@ export default function ProjectContent({ project }: { project: Project }) {
       {/* Esquerda: texto (rola internamente se for longo) */}
       <div className="flex max-h-[76vh] max-w-md flex-col gap-4 overflow-y-auto pr-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {(sector || client) && (
-          <p className="text-xs font-semibold uppercase tracking-wider opacity-60">
+          <p className="font-[family-name:var(--font-roboto-mono)] text-xs uppercase tracking-[0.18em] opacity-60">
             {[sector, client].filter(Boolean).join(" · ")}
           </p>
         )}
@@ -84,7 +84,7 @@ export default function ProjectContent({ project }: { project: Project }) {
         </div>
 
         <h2
-          className="text-3xl font-bold leading-tight tracking-tight md:text-4xl"
+          className="font-[family-name:var(--font-instrument)] text-4xl leading-[1.05] tracking-tight md:text-5xl"
           style={{ color: fg }}
         >
           {title}

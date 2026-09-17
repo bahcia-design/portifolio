@@ -6,8 +6,25 @@ import {
   Roboto,
   Roboto_Mono,
   Inter,
+  Instrument_Serif,
+  Nanum_Brush_Script,
 } from "next/font/google";
 import "./globals.css";
+
+// Display editorial (capa / títulos)
+const instrument = Instrument_Serif({
+  variable: "--font-instrument",
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal", "italic"],
+});
+
+// Toque à mão / pincel de tinta (grafismo pontual)
+const brush = Nanum_Brush_Script({
+  variable: "--font-brush",
+  subsets: ["latin"],
+  weight: ["400"],
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,7 +70,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${cabin.variable} ${roboto.variable} ${robotoMono.variable} ${inter.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${cabin.variable} ${roboto.variable} ${robotoMono.variable} ${inter.variable} ${instrument.variable} ${brush.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
