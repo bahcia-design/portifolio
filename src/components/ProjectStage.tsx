@@ -5,7 +5,6 @@ import { projects } from "@/data/projects";
 import ProjectContent from "@/components/ProjectContent";
 import Cover from "@/components/Cover";
 import Sidebar from "@/components/Sidebar";
-import LineSidebar from "@/components/LineSidebar";
 
 const FADE = 450; // ms — duração de cada fase (sai / entra)
 const DELAY = 380; // ms — o conteúdo que entra espera o que sai limpar (sem ghosting)
@@ -113,9 +112,7 @@ export default function ProjectStage() {
         return (
           <div
             key={i}
-            className={`absolute inset-0 flex items-center will-change-transform${
-              i > 0 ? " lg:pl-56" : ""
-            }`}
+            className="absolute inset-0 flex items-center will-change-transform"
             style={{
               color: sectionFg(i),
               opacity: isActive ? 1 : 0,
@@ -138,25 +135,27 @@ export default function ProjectStage() {
       {/* Barra lateral fixa (socials) — só nos projetos; a capa tem os seus */}
       {active > 0 && <Sidebar fg={projects[active - 1].fg} />}
 
-      {/* Menu de navegação fixo na lateral (acompanha o scroll).
-          Na capa não aparece: o índice grande já cumpre esse papel. */}
-      {active > 0 && (
-        <div className="fixed left-6 top-1/2 z-50 -translate-y-1/2 md:left-10">
-          <LineSidebar
-            items={Array.from({ length: count }, (_, i) => sectionLabel(i))}
-            activeIndex={active}
-            accentColor={projects[active - 1].accent}
-            textColor={`${projects[active - 1].fg}8C`}
-            markerColor={`${projects[active - 1].fg}59`}
-            fontSize={0.82}
-            itemGap={16}
-            markerLength={28}
-            maxShift={8}
-            proximityRadius={90}
-            onItemClick={(i) => goTo(i)}
-          />
-        </div>
-      )}
+      {/* Bolinhas de navegação (capa + projetos) */}
+      <nav className="fixed right-6 top-1/2 z-50 flex -translate-y-1/2 flex-col items-center gap-3">
+        {Array.from({ length: count }, (_, i) => {
+          const isActive = i === active;
+          const fg = sectionFg(active);
+          return (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              aria-label={`Ir para ${sectionLabel(i)}`}
+              aria-current={isActive}
+              className="rounded-full transition-all duration-300"
+              style={{
+                width: 8,
+                height: isActive ? 24 : 8,
+                backgroundColor: isActive ? fg : `${fg}59`,
+              }}
+            />
+          );
+        })}
+      </nav>
     </div>
   );
 }

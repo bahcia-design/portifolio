@@ -42,3 +42,10 @@ next-env.d.ts
 
 # Playwright MCP scratch output
 .playwright-mcp/
+
+# brag video output (generated)
+brag-output/
+
+# Next.js auto-generated agent rules
+/AGENTS.md
+/CLAUDE.md

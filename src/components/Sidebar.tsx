@@ -4,7 +4,7 @@ import { profile } from "@/data/profile";
  *  Fica por cima das camadas de projeto, alinhada à coluna esquerda. */
 export default function Sidebar({ fg }: { fg: string }) {
   return (
-    <div className="pointer-events-none absolute inset-0 z-40 lg:pl-56" style={{ color: fg }}>
+    <div className="pointer-events-none absolute inset-0 z-40" style={{ color: fg }}>
       <div className="mx-auto grid h-full max-w-6xl grid-cols-1 gap-12 px-6 py-12 md:grid-cols-2 md:px-12">
         <div className="pointer-events-auto flex h-full flex-col justify-end">
           {/* Redes sociais (fixas) */}

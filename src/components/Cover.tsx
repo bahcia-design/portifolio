@@ -48,8 +48,8 @@ export default function Cover({ onOpen }: { onOpen: (i: number) => void; project
         <div className="max-w-sm">
           <p className="text-base leading-relaxed" style={{ color: `${CREAM}B3` }}>
             Product Designer com formação em Design Gráfico, atuo no design de
-            produtos web e mobile, criando interfaces que qualquer um consegue
-            usar.
+            produtos web e mobile, criando interfaces que qualquer pessoa
+            consegue usar.
           </p>
           <p
             className="mt-3 font-[family-name:var(--font-roboto-mono)] text-[11px] uppercase tracking-[0.18em]"
